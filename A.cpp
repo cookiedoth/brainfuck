@@ -58,23 +58,20 @@ void single_addition(int cnt);
 void print();
 void next_block();
 void prev_block();
+void clear_block();
 
 void read() {
-	ans += ">";
-	ans += ",";
-	ans += ">>++++++++++";
-	ans += "[-<<->>]";
-	ans += "<<<->";
-	ans += "[<+>>>]";
-	ans += "<<";
-	ans += "--------------------------------------";
-	ans += ">";
-	ans += "[->++++++++++<]";
-	ans += ">";
-	ans += "[-<+>]";
-	ans += "<<";
-	ans += "[->+<]";
-	ans += "<";
+	ans += ">>+[>,>>++++++++++[-<<->>]<<<->[<+>>>]<<-------------------------------------->[->++++++++++<]>[-<+>]<<[->+<]<]>>[-<<<<+>>>>]";
+}
+
+void clear_block() {
+	for (int i = 1; i < BLOCK_SIZE; i++) {
+		go_right(1);
+		start_cycle();
+		single_substraction(1);
+		end_cycle();
+	}
+	go_left(BLOCK_SIZE - 1);
 }
 
 void print() {
@@ -205,6 +202,7 @@ inline void init() {
 inline void solve() {
 	init();
 	read();
+	clear_block();
 	next_block();
 	read();
 	prev_block();
@@ -218,7 +216,7 @@ inline void solve() {
 	addition(1);
 	go_right(1);
 	copy_single(-1);
-	go_left(-1);
+	go_left(1);
 	print();
 	cout << ans << '\n';
 }
