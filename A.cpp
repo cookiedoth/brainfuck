@@ -61,7 +61,8 @@ void prev_block();
 void clear_block();
 
 void read() {
-	ans += ">>+[>,>>++++++++++[-<<->>]<<<->[<+>>>]<<-------------------------------------->[->++++++++++<]>[-<+>]<<[->+<]<]>>[-<<<<+>>>>]";
+	ans += ">>+[>,>>++++++++++[-<<->>]<<<->[<+>>>]<<-------------------------------------->[->++++++++++<]>[-<+>]<<[->+<]<]>>>>[-<<<<+>>>>]";
+	go_left(4);
 }
 
 void clear_block() {
@@ -205,6 +206,7 @@ inline void solve() {
 	clear_block();
 	next_block();
 	read();
+	clear_block();
 	prev_block();
 	copy_segment(2);
 	go_right(2);
@@ -218,7 +220,7 @@ inline void solve() {
 	copy_single(-1);
 	go_left(1);
 	print();
-	cout << ans << '\n';
+	cout << ans;
 }
 
 signed main() {
