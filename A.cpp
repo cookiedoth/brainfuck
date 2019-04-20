@@ -42,6 +42,7 @@ const int MOD = 1e9 + 7;
 int n;
 
 string ans;
+const int BLOCK_SIZE = 10;
 
 void read();
 void go_left(int cnt);
@@ -54,11 +55,30 @@ void start_cycle();
 void end_cycle();
 void single_substraction(int cnt);
 void single_addition(int cnt);
-
+void print();
+void next_block();
+void prev_block();
 
 void read() {
-	ans.push_back(',');
-	ans.push_back('>');
+	ans += ">";
+	ans += ",";
+	ans += ">>++++++++++";
+	ans += "[-<<->>]";
+	ans += "<<<->";
+	ans += "[<+>>>]";
+	ans += "<<";
+	ans += "--------------------------------------";
+	ans += ">";
+	ans += "[->++++++++++<]";
+	ans += ">";
+	ans += "[-<+>]";
+	ans += "<<";
+	ans += "[->+<]";
+	ans += "<";
+}
+
+void print() {
+	ans.push_back('.');
 }
 
 void go_left(int cnt) {
@@ -87,50 +107,87 @@ void single_substraction(int cnt) {
 
 void copy_single(int cnt) {
 	start_cycle();
-	go_right(cnt);
+	if (cnt > 0) {
+		go_right(cnt);
+	}
+	else {
+		go_left(-cnt);
+	}
 	single_addition(1);
-	go_left(cnt);
+	if (cnt > 0) {
+		go_left(cnt);
+	}
+	else {
+		go_right(-cnt);
+	}
 	single_substraction(1);
 	end_cycle();
 }
 
 void copy_segment(int cnt) {
 	start_cycle();
-	for (int i = 0; i < cnt; i++) {
-		go_right(1);
-		single_addition(1);
+	if (cnt > 0) {
+		for (int i = 0; i < cnt; i++) {
+			go_right(1);
+			single_addition(1);
+		}
+		go_left(cnt);
 	}
-	go_left(cnt);
+	else {
+		for (int i = 0; i < -cnt; i++) {
+			go_left(1);
+			single_addition(1);
+		}
+		go_right(-cnt);	
+	}
 	single_substraction(1);
 	end_cycle();
 }
 
 void addition(int delta) {
 	start_cycle();
-	go_right(delta);
+	if (delta > 0) {
+		go_right(delta);
+	}
+	else {
+		go_left(-delta);
+	}
 	single_addition(1);
-	go_left(delta);
+	if (delta > 0) {
+		go_left(delta);
+	}
+	else {
+		go_right(-delta);
+	}
 	single_substraction(1);
 	end_cycle();
-	for (int i = 0; i < delta; i++) {
-		ans.push_back('<');
-	}
-	ans.push_back('-');
-	ans.push_back(']');
 }
 
 void substraction(int delta) {
+	start_cycle();
+	if (delta > 0) {
+		go_right(delta);
+	}
+	else {
+		go_left(-delta);
+	}
+	single_substraction(1);
+	if (delta > 0) {
+		go_left(delta);
+	}
+	else {
+		go_right(-delta);
+	}
+	single_substraction(1);
+	end_cycle();
+}
 
-	ans.push_back('[');
-	for (int i = 0; i < delta; i++) {
-		ans.push_back('>');
-	}
-	ans.push_back('+');
-	for (int i = 0; i < delta; i++) {
-		ans.push_back('<');
-	}
-	ans.push_back('-');
-	ans.push_back(']');
+void next_block() {
+	go_right(BLOCK_SIZE);
+}
+
+void prev_block() {
+	go_left(BLOCK_SIZE);
 }
 
 void start_cycle() {
@@ -138,7 +195,7 @@ void start_cycle() {
 }
 
 void end_cycle() {
-	ans.push_back('[');
+	ans.push_back(']');
 }
 
 inline void init() {
@@ -148,15 +205,22 @@ inline void init() {
 inline void solve() {
 	init();
 	read();
-	go_left(1);
-	copy(10);
-	go_left()
+	next_block();
 	read();
-	go_left(2);
+	prev_block();
+	copy_segment(2);
+	go_right(2);
+	copy_single(-2);
+	go_left(1);
+	copy_single(BLOCK_SIZE);
+	go_left(1);
+	next_block();
 	addition(1);
+	go_right(1);
+	copy_single(-1);
+	go_left(-1);
+	print();
 	cout << ans << '\n';
-	// go_left(1);
-	// copy(2)
 }
 
 signed main() {
