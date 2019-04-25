@@ -59,10 +59,11 @@ void print();
 void next_block();
 void prev_block();
 void clear_block();
+void multiplication();
+void division();
 
 void read() {
-	ans += ">>+[>,>>++++++++++[-<<->>]<<<->[<+>>>]<<-------------------------------------->[->++++++++++<]>[-<+>]<<[->+<]<]>>>>[-<<<<+>>>>]";
-	go_left(4);
+	ans += ">>+[>,>>++++++++++[-<<->>]<<<->[<+>>>]<<-------------------------------------->[->++++++++++<]>[-<+>]<<[->+<]<]>>>>[-<<<<+>>>>]<<[-]<<";
 }
 
 void clear_block() {
@@ -136,7 +137,7 @@ void copy_segment(int cnt) {
 			go_left(1);
 			single_addition(1);
 		}
-		go_right(-cnt);	
+		go_right(-cnt);
 	}
 	single_substraction(1);
 	end_cycle();
@@ -178,6 +179,14 @@ void substraction(int delta) {
 	}
 	single_substraction(1);
 	end_cycle();
+}
+
+void multiplication(){
+	ans += "[->>+>+<<<]>[->[-<<+>>]>[->+<]>[-<+<+>>]<<<]>[-]>[-]<<<";
+}
+
+void division(){
+    ans += ">[->>>+<<<]<[->+>>+>-[<-]<[->>+<<<<[->>>+<<<]>]<<]>[-<+>]>>>[-]>[-<<<<+>>>>]<<<<";
 }
 
 void next_block() {
@@ -231,9 +240,9 @@ inline void solve() {
 	clear_block();
 	next_block();
 	addition(1);
-	cout << ans << '\n'; // temporary
-	return;
+	ans += ">";
 	print();
+	ans += "<";
 	single_addition(' ');
 	ans.push_back('.');
 	single_substraction(' ');
@@ -246,18 +255,19 @@ inline void solve() {
 	ans.push_back('.');
 	single_substraction(' ');
 	next_block();
+	multiplication();
 	print();
 	single_addition(' ');
 	ans.push_back('.');
 	single_substraction(' ');
 	next_block();
+	division();
 	print();
 	single_addition(' ');
 	ans.push_back('.');
 	single_substraction(' ');
-	next_block();
+	ans += "<";
 	print();
-	cout << ans;
 }
 
 signed main() {
@@ -265,11 +275,12 @@ signed main() {
 		freopen("A.in", "r", stdin);
 		freopen("A.out", "w", stdout);
 	#else
-	
+
 	#endif
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
 	cout.tie(0);
 	solve();
+	cout << ans;
 	return 0;
 }
